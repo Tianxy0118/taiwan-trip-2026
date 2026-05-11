@@ -77,6 +77,10 @@
   .info { background:#d1ecf1; border-left:4px solid #17a2b8; padding:12px 16px; border-radius:8px; font-size:0.85em; margin-bottom:12px; }
   .divider { border-top:2px dashed var(--border); margin:16px 0; }
 
+  .nav-btn { display:inline-block; margin-top:4px; padding:5px 12px; background:#4285F4; color:#fff; border-radius:14px; font-size:0.78em; text-decoration:none; font-weight:600; white-space:nowrap; }
+  .nav-btn:hover { background:#1a73e8; }
+  .nav-btn:active { transform:scale(0.96); }
+
   @media (max-width:480px) {
     .hero h1 { font-size:1.3em; }
     .card { padding:14px; }
@@ -434,6 +438,33 @@ function loadChecks(){
   }catch(e){}
 }
 document.addEventListener('DOMContentLoaded',loadChecks);
+
+// ===== Auto-generate Google Maps nav buttons for each stop =====
+function addNavButtons(){
+  document.querySelectorAll('.tl-item').forEach(item=>{
+    if(item.querySelector('.nav-btn'))return; // already added
+    const nameEl=item.querySelector('.name');
+    if(!nameEl)return;
+    // Extract clean name (remove emoji and tags)
+    const clone=nameEl.cloneNode(true);
+    clone.querySelectorAll('.tag').forEach(t=>t.remove());
+    let name=clone.textContent.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F680}-\u{1F6FF}\u{1F600}-\u{1F64F}]/gu,'').replace(/[⚡⭐🅿️✅⚠️💡➡️]/g,'').trim();
+    if(!name||name.length<2)name=nameEl.textContent.replace(/[\u{1F300}-\u{1FAFF}]/gu,'').trim().substring(0,20);
+    const btn=document.createElement('a');
+    btn.className='nav-btn';
+    btn.href='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(name+' 台北');
+    btn.target='_blank';
+    btn.rel='noopener';
+    btn.textContent='🗺️ 導航';
+    // Add after park div, or after note div, or at end
+    const park=item.querySelector('.park');
+    if(park){park.after(btn);}else{const note=item.querySelector('.note');if(note){note.after(btn);}else{item.appendChild(btn);}}
+  });
+}
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(addNavButtons,100);});
+// Also run on tab switch
+const origShowDay=showDay;
+showDay=function(id){origShowDay(id);setTimeout(addNavButtons,150);};
 
 // Fix maps on tab switch
 document.querySelectorAll('.tabs button').forEach(btn=>{
