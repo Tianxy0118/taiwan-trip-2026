@@ -80,6 +80,10 @@
   .nav-btn { display:inline-block; margin-top:4px; padding:5px 12px; background:#4285F4; color:#fff; border-radius:14px; font-size:0.78em; text-decoration:none; font-weight:600; white-space:nowrap; }
   .nav-btn:hover { background:#1a73e8; }
   .nav-btn:active { transform:scale(0.96); }
+	  .nav-btn.gaode { background:#07C160; margin-left:4px; }
+	  .nav-btn.gaode:hover { background:#06AD56; }
+	  .nav-btn.gaode:active { transform:scale(0.96); background:#05944A; }
+
 
   @media (max-width:480px) {
     .hero h1 { font-size:1.3em; }
@@ -140,6 +144,7 @@
 </div>
 <div class="map-wrap"><div id="map-d1" class="map"></div></div>
 <a class="map-link" href="https://www.google.com/maps/dir/板橋凱撒大飯店+新北市板橋區/濟南牛肉麵+台北市中正區濟南路二段60之3號/中正紀念堂+台北/中山站+赤峰街+台北/欣葉台菜南西店+台北市中山區南京西路12號/台北101+台北市信義區/四四南村+台北市信義區" target="_blank">🗺️ Google Maps導航 →</a>
+<a class="map-link" href="https://uri.amap.com/navigation?to=121.5649,25.0337,台北101&mode=car&callnative=1" target="_blank" style="color:#07C160;">📍 高德地圖導航 →</a>
 </div>
 
 <!-- ==================== DAY 2 ==================== -->
@@ -164,6 +169,7 @@
 </div>
 <div class="map-wrap"><div id="map-d2" class="map"></div></div>
 <a class="map-link" href="https://www.google.com/maps/dir/板橋凱撒大飯店+新北市板橋區/阜杭豆漿+台北市中正區忠孝東路一段108號/國立故宮博物院+台北市士林區/君悅排骨天母店+台北市士林區天母西路38巷1號/士林官邸+台北市士林區福林路60號/思慕昔+台北市大安區永康街15號/迪化街+台北市大同區/蓬萊國小地下停車場+台北市大同區/寧夏夜市+台北市大同區" target="_blank">🗺️ Google Maps導航 →</a>
+<a class="map-link" href="https://uri.amap.com/navigation?to=121.5150,25.0571,寧夏夜市&mode=car&callnative=1" target="_blank" style="color:#07C160;">📍 高德地圖導航 →</a>
 </div>
 
 <!-- ==================== DAY 3 ==================== -->
@@ -185,6 +191,7 @@
 </div>
 <div class="map-wrap"><div id="map-d3" class="map"></div></div>
 <a class="map-link" href="https://www.google.com/maps/dir/板橋凱撒大飯店+新北市板橋區/太魯閣國家公園+花蓮縣秀林鄉/七星潭+花蓮縣新城鄉/公正包子+花蓮市/清水斷崖+花蓮縣秀林鄉/台泥DAKA+花蓮縣秀林鄉和平村/板橋凱撒大飯店+新北市板橋區" target="_blank">🗺️ Google Maps導航 →</a>
+<a class="map-link" href="https://uri.amap.com/navigation?to=121.6240,24.1830,太魯閣國家公園&mode=car&callnative=1" target="_blank" style="color:#07C160;">📍 高德地圖導航 →</a>
 </div>
 
 <!-- ==================== DAY 4 ==================== -->
@@ -209,6 +216,7 @@
 </div>
 <div class="map-wrap"><div id="map-d4" class="map"></div></div>
 <a class="map-link" href="https://www.google.com/maps/dir/板橋凱撒大飯店+新北市板橋區/竹子湖+台北市北投區/小油坑+台北市北投區/微熱山丘民生店+台北市松山區/富錦樹台菜香檳+台北市松山區敦化北路199巷17號/松山文創園區+台北市信義區/臨洋港生猛海鮮長安店+台北市中山區長安東路一段99號/師大夜市+台北市大安區" target="_blank">🗺️ Google Maps導航 →</a>
+<a class="map-link" href="https://uri.amap.com/navigation?to=121.5370,25.1740,竹子湖&mode=car&callnative=1" target="_blank" style="color:#07C160;">📍 高德地圖導航 →</a>
 </div>
 
 <!-- ==================== DAY 5 ==================== -->
@@ -232,6 +240,7 @@
 </div>
 <div class="map-wrap"><div id="map-d5" class="map"></div></div>
 <a class="map-link" href="https://www.google.com/maps/dir/板橋凱撒大飯店+新北市板橋區/鼎元豆漿+台北市中正區金華街30之1號/如邑堂開封店+台北市萬華區開封街二段22號/聖比德西門店+台北市萬華區成都路27巷25號/桃園國際機場+桃園市大園區" target="_blank">🗺️ Google Maps導航 →</a>
+<a class="map-link" href="https://uri.amap.com/navigation?to=121.2328,25.0777,桃園機場&mode=car&callnative=1" target="_blank" style="color:#07C160;">📍 高德地圖導航 →</a>
 </div>
 
 <!-- ==================== SUMMARY ==================== -->
@@ -444,26 +453,26 @@ function loadChecks(){
 }
 document.addEventListener('DOMContentLoaded',loadChecks);
 
-// ===== Auto-generate Google Maps nav buttons for each stop =====
+// ===== Auto-generate Google + Gaode nav buttons for each stop =====
 function addNavButtons(){
   document.querySelectorAll('.tl-item').forEach(item=>{
     if(item.querySelector('.nav-btn'))return; // already added
     const nameEl=item.querySelector('.name');
     if(!nameEl)return;
-    // Extract clean name (remove emoji and tags)
     const clone=nameEl.cloneNode(true);
     clone.querySelectorAll('.tag').forEach(t=>t.remove());
     let name=clone.textContent.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F680}-\u{1F6FF}\u{1F600}-\u{1F64F}]/gu,'').replace(/[⚡⭐🅿️✅⚠️💡➡️]/g,'').trim();
     if(!name||name.length<2)name=nameEl.textContent.replace(/[\u{1F300}-\u{1FAFF}]/gu,'').trim().substring(0,20);
-    const btn=document.createElement('a');
-    btn.className='nav-btn';
-    btn.href='https://www.google.com/maps/dir/?api=1&destination='+encodeURIComponent(name+' 台北');
-    btn.target='_blank';
-    btn.rel='noopener';
-    btn.textContent='🗺️ 導航';
-    // Add after park div, or after note div, or at end
-    const park=item.querySelector('.park');
-    if(park){park.after(btn);}else{const note=item.querySelector('.note');if(note){note.after(btn);}else{item.appendChild(btn);}}
+    var q=encodeURIComponent(name+' 台北');
+    var g=document.createElement('a'); g.className='nav-btn';
+    g.href='https://www.google.com/maps/dir/?api=1&destination='+q;
+    g.target='_blank'; g.rel='noopener'; g.textContent='🗺️ Google';
+    var a=document.createElement('a'); a.className='nav-btn gaode';
+    a.href='https://uri.amap.com/search?keyword='+q+'&callnative=1';
+    a.target='_blank'; a.rel='noopener'; a.textContent='📍 高德';
+    var park=item.querySelector('.park');
+    if(park){park.after(g); park.after(a);}
+    else{var note=item.querySelector('.note');if(note){note.after(g); note.after(a);}else{item.appendChild(g); item.appendChild(a);}}
   });
 }
 document.addEventListener('DOMContentLoaded',()=>{setTimeout(addNavButtons,100);});
