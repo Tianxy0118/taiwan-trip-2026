@@ -463,19 +463,21 @@ document.addEventListener('DOMContentLoaded',loadChecks);
 // ===== Auto-generate Google + Gaode nav buttons for each stop =====
 function addNavButtons(){
   document.querySelectorAll('.tl-item').forEach(item=>{
-    if(item.querySelector('.nav-btn'))return; // already added
+    if(item.querySelector('.nav-btn'))return;
     const nameEl=item.querySelector('.name');
     if(!nameEl)return;
     const clone=nameEl.cloneNode(true);
     clone.querySelectorAll('.tag').forEach(t=>t.remove());
     let name=clone.textContent.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{1F900}-\u{1F9FF}\u{1F680}-\u{1F6FF}\u{1F600}-\u{1F64F}]/gu,'').replace(/[⚡⭐🅿️✅⚠️💡➡️]/g,'').trim();
     if(!name||name.length<2)name=nameEl.textContent.replace(/[\u{1F300}-\u{1FAFF}]/gu,'').trim().substring(0,20);
+    // Strip meal-type suffixes for clean search query
+    name=name.replace(/(早餐|午餐|晚餐|晚午餐|下午加餐|甜品|宵夜|下午茶|下午|快閃|備選|路過)/g,'').trim();
     var q=encodeURIComponent(name+' 台北');
     var g=document.createElement('a'); g.className='nav-btn';
     g.href='https://www.google.com/maps/dir/?api=1&destination='+q;
     g.target='_blank'; g.rel='noopener'; g.textContent='🗺️ Google';
     var a=document.createElement('a'); a.className='nav-btn gaode';
-    a.href='https://uri.amap.com/search?keyword='+q+'&callnative=1';
+    a.href='https://uri.amap.com/search?keyword='+encodeURIComponent(name)+'&callnative=1';
     a.target='_blank'; a.rel='noopener'; a.textContent='📍 高德';
     var park=item.querySelector('.park');
     if(park){park.after(g); park.after(a);}
